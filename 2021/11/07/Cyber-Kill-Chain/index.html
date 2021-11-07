@@ -1,0 +1,504 @@
+
+
+<!DOCTYPE html>
+<html lang="es" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/Website/favicon.png">
+  <link rel="icon" href="/img/Website/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="¿Qué es la Cyber Kill Chain? Metodología y breve expliación de las TTPs.">
+  <meta name="author" content="Melioda5">
+  <meta name="keywords" content="">
+  <meta name="description" content="¿Qué es la Cyber Kill Chain? Metodología y breve expliación de las TTPs.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cyber Kill Chain">
+<meta property="og:url" content="http://melioda5.github.io/2021/11/07/Cyber-Kill-Chain/index.html">
+<meta property="og:site_name" content="H4CK1NGT1M3">
+<meta property="og:description" content="¿Qué es la Cyber Kill Chain? Metodología y breve expliación de las TTPs.">
+<meta property="og:locale" content="es_ES">
+<meta property="og:image" content="http://melioda5.github.io/img/Notes/Cyber_Kill_Chain/Cyber_kill_chain.jpg">
+<meta property="article:published_time" content="2021-11-07T16:02:19.000Z">
+<meta property="article:modified_time" content="2021-11-07T16:29:42.050Z">
+<meta property="article:author" content="Melioda5">
+<meta property="article:tag" content="Theory">
+<meta property="article:tag" content="Begginer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://melioda5.github.io/img/Notes/Cyber_Kill_Chain/Cyber_kill_chain.jpg">
+  
+  <title>Cyber Kill Chain - H4CK1NGT1M3</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"melioda5.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/Website/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>H4CK1NGT1M3</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archivos
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categorias
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                Sobre mí
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/Notes/Cyber_Kill_Chain/Cyber_kill_chain.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Cyber Kill Chain">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-07 17:02" pubdate>
+        7 de noviembre de 2021 pm
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.8k wc
+    </span>
+  
+
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> views
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Cyber Kill Chain</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Cyber-Kill-Chain"><a href="#Cyber-Kill-Chain" class="headerlink" title="Cyber Kill Chain"></a><strong>Cyber Kill Chain</strong></h1><p>La <strong>Cyber Kill Chain</strong> es un framework creado por Lockheed Martin que explica los procedimientos que puede realizar un atacante en cada una de las fases de un ciberataque. Este modelo además, ayuda a las empresas a poder crear contramedidas y poder defenderse de dichos ataques.</p>
+<h2 id="Metodologia"><a href="#Metodologia" class="headerlink" title="Metodología"></a>Metodología</h2><p>La metodología Cyber Kill Chain ayuda a los profesionales de la seguridad de la información a identificar los pasos de un atacante durante todo el proceso de un ataque. El framework contiene mecanismos de protección contra las amenazas que puedan aparecer durante las 7 fases, mejorando de ese modo activamente la detección y la respuesta a intrusiones.</p>
+<p><img src="/img/Notes/Cyber_Kill_Chain/Cyber_kill_chain.jpg" srcset="/img/Website/loading.gif" lazyload alt="Figura 1: Cyber Kill Chain"></p>
+<p>Las 7 fases de un ataque consisten en:</p>
+<h3 id="Reconocimiento"><a href="#Reconocimiento" class="headerlink" title="Reconocimiento"></a>Reconocimiento</h3><p>El atacante busca recopilar tanta información sobre el objetivo como sea posible, para buscar puntos débiles antes de atacar. Buscan información como la disponible públicamente en Internet, información de la red y información del sistema. Al realizar un reconocimiento en diferentes niveles de red, el adversario puede obtener información como bloques de red, direcciones IP específicas y detalles de los usuarios. El atacante suele utilizar herramientas de escaneo de hosts activos, puertos abiertos, software automatizado de descubrimiento de vulnerabilidades, etc.</p>
+<p>Las acciones más comunes realizadas por los atacantes en esta fase son:</p>
+<ul>
+<li>Monitorización y análisis del sitio web de la organización objetivo.</li>
+<li>Recopilar información sobre la organización objetivo mediante búsquedas en Internet, redes sociales o mediante ingeniería social.</li>
+<li>Realización de Whois, DNS y footprinting de la red.</li>
+<li>Utilizar herramientas de escaneo para identificar puertos y servicios abiertos.</li>
+</ul>
+<h3 id="Armamento"><a href="#Armamento" class="headerlink" title="Armamento"></a>Armamento</h3><p>El atacante analiza los datos recopilados en la etapa anterior para identificar las vulnerabilidades y técnicas que pueden explotar y obtener acceso no autorizado a la organización objetivo. En función de las vulnerabilidades identificadas durante el análisis, el adversario selecciona o crea una carga útil maliciosa (<strong>payload</strong>) entregable a medida (arma de malware de acceso remoto) utilizando un exploit que contiene un backdoor para enviársela a la víctima. </p>
+<p>Un atacante puede marcar como target dispositivos de red específicos, sistemas operativos (<strong>SO</strong>), endpoints o incluso a personas dentro de la organización para llevar a cabo su ataque. Por ejemplo, el atacante puede enviar un correo electrónico de phishing a un empleado de la organización objetivo, que puede incluir un archivo adjunto malicioso como un virus o gusano que, cuando se descarga, instala un backdoor en el sistema que permite el acceso remoto al atacante.</p>
+<p>Las acciones más comunes realizadas por los atacantes en esta fase son:</p>
+<ul>
+<li>Identificación de la carga útil (<strong>payload</strong>) de malware adecuada según el análisis.</li>
+<li>Crear, reutilizar o modificar algún otro payload de malware disponible en función de la vulnerabilidad identificada.</li>
+</ul>
+<h3 id="Entrega"><a href="#Entrega" class="headerlink" title="Entrega"></a>Entrega</h3><p>El exploit creado previamente se transmite a las víctimas como un archivo adjunto de correo electrónico, a través de un enlace malicioso en sitios web o mediante una aplicación web vulnerable o una unidad USB. La entrega <strong>es una etapa clave</strong>, que mide la efectividad de las estrategias de defensa implementadas por la organización objetivo en función de si el intento de intrusión del atacante ha sido detectado y bloqueado o no.</p>
+<p>Las acciones más comunes realizadas por los atacantes en esta fase son:</p>
+<ul>
+<li>Envío de correos electrónicos de <strong>phishing</strong> a los empleados de la organización objetivo.</li>
+<li>Distribuir unidades USB que contienen cargas útiles maliciosas a los empleados de la organización objetivo.</li>
+<li>Aprovechar vulnerabilidades existentes sobre los sistemas operativos, aplicaciones y servidores de la organización objetivo.</li>
+</ul>
+<h3 id="Explotacion"><a href="#Explotacion" class="headerlink" title="Explotación"></a>Explotación</h3><p>Una vez que el exploit se transmite a la víctima, la explotación activa el código malicioso del atacante para aprovechar una vulnerabilidad en el sistema operativo, la aplicación o el servidor en un sistema objetivo. Esta fase no solo consiste en la ejecución de exploits, sino que un atacante también puede explotar alguna vulnerabilidad debido a una mala configuración de seguridad por parte del personal responsable de mantener esos sistemas (LFI, RFI, SQL Injection, etc.).</p>
+<p>Las acciones más comunes realizadas por los atacantes en esta fase son:</p>
+<ul>
+<li>Explotar las vulnerabilidades de software o hardware para obtener acceso remoto al sistema de destino</li>
+</ul>
+<h3 id="Instalacion"><a href="#Instalacion" class="headerlink" title="Instalación"></a>Instalación</h3><p>El atacante una vez consigue acceso remoto al equipo objetivo, descarga e instala más software malicioso en el sistema para mantener el acceso a la red objetivo durante un período prolongado. Pueden usar el arma para instalar una puerta trasera para obtener acceso remoto. Además, el atacante obtiene la capacidad de propagar malware a otros sistemas de la red. Un atacante siempre intenta ocultar la presencia de sus actividades maliciosas de los controles de seguridad, como los firewalls, utilizando diversas técnicas, como el cifrado.</p>
+<p>Las acciones más comunes realizadas por los atacantes en esta fase son:</p>
+<ul>
+<li>Mantener el acceso al sistema objetivo.</li>
+<li>Descargar e instalar software malicioso, como backdoors.</li>
+<li>Obtener acceso remoto al sistema.</li>
+</ul>
+<h3 id="Comando-y-control"><a href="#Comando-y-control" class="headerlink" title="Comando y control"></a>Comando y control</h3><p>El atacante crea un canal de comando y control, que establece una comunicación bidireccional entre el sistema de la víctima y el servidor controlado por el atacante para comunicarse y enviar datos de un lado a otro. Los atacantes suelen implementar técnicas como el cifrado para ocultar la presencia de dichos canales. Usando este canal, el atacante toma el control remoto del sistema o red objetivo.</p>
+<p>Las acciones más comunes realizadas por los atacantes en esta fase son:</p>
+<ul>
+<li>Establecer un canal de comunicación bidireccional entre el sistema de la víctima y el servidor controlado por el atacante.</li>
+<li>Aprovecharse de protocoles comunes como HTTP, ICM, DNS, etc. para tunelizar el tráfico y pasar más desapercibido. </li>
+<li>Aplicar técnicas de escalada de privilegios</li>
+<li>Ocultar las pistas mediante técnicas de cifrado.</li>
+</ul>
+<h3 id="Acciones-y-objetivos"><a href="#Acciones-y-objetivos" class="headerlink" title="Acciones y objetivos"></a>Acciones y objetivos</h3><p>El atacante controla el sistema objetivo desde una ubicación remota y finalmente logra sus objetivos. El atacante obtiene acceso a información sensible, y obtiene la capacidad de interrumpir o destruir los servicios del sistema, aparte de poder comprometer más sistemas de la red. Además, el atacante puede utilizar este sistema explotado como punto de partida para realizar otros ataques.</p>
+<h2 id="Tacticas-Tecnicas-y-Procedimientos-TTPs"><a href="#Tacticas-Tecnicas-y-Procedimientos-TTPs" class="headerlink" title="Tácticas, Técnicas y Procedimientos (TTPs)"></a>Tácticas, Técnicas y Procedimientos (TTPs)</h2><p>Las tácticas, técnicas y procedimientos son patrones de actividades y métodos que ayudan a identificar grupos criminales o Advanced Persistent Threads (<strong>APTs</strong>) relacionados. Para poder implementar una buena defensa en un sistema, es muy importante entender estas TTPs para poder, de esa forma conocer como suelen actuar los distintos APTs. Entender las TTPs ayuda a predecir y detectar actividades anómalas antes de que puedan volverse una amenaza mayor, aparte de identificar vulnerabilidades en los sistemas y poder implementar o mejorar los mecanismos de defensa.</p>
+<h3 id="Tacticas"><a href="#Tacticas" class="headerlink" title="Tácticas"></a>Tácticas</h3><p>Las tácticas describe la forma de actuar de actores de amenaza durante las diferentes fases de un ataque. Todo ataque consiste en un conjunto de tácticas para recolectar información, realizar una escalada de privilegios y ganar persistencia en el sistema. Los APTs suelen tener un conjunto de tácticas predefinidas pero, en algunas circunstancias pueden llegar a alterar su forma de atacar. Por ello, las empresas pueden identificar a los diferentes APTs en función de las tácticas que utilicen en ese moomento.</p>
+<p>Una forma para detectar a los diferentes grupos de  APTs, se basa en conocer el conjunto de herramientas que utilizan para elaborar el ataque. Por ejemplo, en el caso de detectar un canal de Comando y control (<strong>C&amp;C</strong>), se puede descubrir la geolocalización aproximada de a que lugar del mundo pertenece el servidor de C&amp;C. Si se sabe que hay solo 3 APTs que actúan desde ese país, se puede aproximar mucho más la investigación de esos grupos y ver que otras tácticas suelen utilizar.</p>
+<h3 id="Tecnicas"><a href="#Tecnicas" class="headerlink" title="Técnicas"></a>Técnicas</h3><p>Las técnicas son las diferentes acciones que se realizan en cada una de las tácticas de las diferentes fases de un ataque. Un ejemplo podrías ser:</p>
+<ul>
+<li>Para la táctica de reconocer puertos abiertos en un sistema específico, las técnicas serían la utilización de la herramienta Nmap con las flags adecuadas o estudiar el tipo de respuesta en base a una trama ICMP (<strong>ping</strong>).</li>
+</ul>
+<p>Las técnicas pueden ser analizadas en cada una de las fases del ciclo de vida de un ataque. Las técnicas no tienen porque solo ser aspectos técnicos, la ingeniería social es una técnica que no requiere de ningún tipo de software y en cambio es muy efectiva. Cabe destacar que las técnicas de ingeniería social se suele utilizar en la fase inicial de un ataque, ya que a partir de ahí se pueden obtener nombres de empleados, correos electrónicos, números de teléfono y otro tipo de información muy útil a la hora de explotar controles de accesos.</p>
+<p>Las técnicas utilizadas en las fases un poco más desarrolladas cada vez dependen más de aspectos técnicos o conjunto de herramientas de software a utilizar, como son conocimiento de técnicas para elaborar escalada de privilegios en los sistemas o realizar movimientos laterales para evitar ser detectado.</p>
+<p>Las técnicas en la última fase del ataque puede mezclar aspectos técnicos y no técnicos. Un ejemplo podría ser:</p>
+<ul>
+<li>El atacante una vez ha obtenido acceso privilegiado al sistema, encripta los ficheros que pretende robar, los envía por el canal de C&amp;C y los almacena en su sistema. Una vez ya tiene la información en su poder, utiliza herramientas puramente técnicas para limpiar todos los logs que haya podido generar y así no poder ser rastreado.</li>
+</ul>
+<h3 id="Procedimientos"><a href="#Procedimientos" class="headerlink" title="Procedimientos"></a>Procedimientos</h3><p>Los procedimientos son la secuencia de acciones realizadas por los APTs en las diferentes fases del ciclo de vida de un ataque. El número de acciones a realizar en una misma fase puede variar entre un ataque y otro, con el fin de obtener el mismo objetivo intermedio. Esto es debido a que aumenta las probabilidades de lograr el objetivo y reduce las probabilidades de ser detectado por los mecanismos de seguridad.</p>
+<p>Comprender y analizar los procedimientos implementados en el ataque, puede ayudar a identificar los actores de amenaza. Intentar perfilar un APT en la fase inicial de un ataque puede ser complicado. Sin embargo, conforme los atacantes avanzan en las fases de un ataque, es más fácil comprender quienes son los actores de amenaza y cual es su objetivo final.</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Apuntes/">Apuntes</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Theory/">Theory</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Begginer/">Begginer</a>
+                    
+                  </div>
+                
+              </div>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/05/Introduction_to_ETH/">
+                        <span class="hidden-mobile">Introducción a la ciberseguridad</span>
+                        <span class="visible-mobile">Siguiente</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;Tabla de contenido</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Buscar</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/Melioda5" target="_blank" rel="nofollow noopener"><span>Melioda5</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
