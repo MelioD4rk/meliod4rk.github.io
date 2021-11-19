@@ -4,6 +4,39 @@
   
   
   <entry>
+    <title>Caldera</title>
+    <link href="/2021/11/18/Caldera/"/>
+    <url>/2021/11/18/Caldera/</url>
+    
+    <content type="html"><![CDATA[<p>Caldera es un software de <strong>Emulación de Adversarios</strong> muy popular entre la comunidad de hackers trabajando en los equipos de Red Team, Blue Team y Incident Response.</p><h1 id="¿Como-instalar-Caldera"><a href="#¿Como-instalar-Caldera" class="headerlink" title="¿Como instalar Caldera?"></a>¿Como instalar Caldera?</h1><h2 id="Github-instalacion-Offline"><a href="#Github-instalacion-Offline" class="headerlink" title="Github / instalación Offline"></a>Github / instalación Offline</h2><ol><li>Clonamos el repositorio en nuestro equipo<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/mitre/caldera.git --recursive --branch 4.0.0-alpha<br></code></pre></td></tr></table></figure></li><li>Instalamos los requeriments.txt<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip3 install -r requirements.txt<br></code></pre></td></tr></table></figure></li><li>Levantamos el servidor de Caldera. Por defecto utiliza el puerto 8888 del localhost -&gt; <a href="http://localhost:8888/">http://localhost:8888</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 server.py --insecure<br></code></pre></td></tr></table></figure></li></ol><h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><p>Para la instalación, he seguido la web del siguiente enlace:<br><a href="https://caldera.readthedocs.io/en/2.6.6/Docker-deployment.html">https://caldera.readthedocs.io/en/2.6.6/Docker-deployment.html</a></p><ol><li>Clonamos el repositorio en nuestro equipo<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/mitre/caldera.git --recursive --branch 4.0.0-alpha<br></code></pre></td></tr></table></figure></li><li>Como el repositorio de Github contiene un fichero Dockerfile, crearemos nuestra propia imagen de docker a partir de este fichero.<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker build . -t caldera:server<br></code></pre></td></tr></table></figure></li><li>Finalmente creamos el contenedor y levantamos el servidor de Caldera. Por defecto utiliza el puerto 8888 del localhost -&gt; <a href="http://localhost:8888/">http://localhost:8888</a><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run --name caldera -p 7010:7010 -p 7011:7011 -p 7012:7012 -p 8888:8888 caldera:server<br></code></pre></td></tr></table></figure></li><li>Para poder iniciar sesión, necesitamos de las credenciales de los usuarios <strong>red</strong> y <strong>blue</strong>. Se pueden obtener de la siguiente forma:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker <span class="hljs-built_in">exec</span> -it caldera bash<br>tail -5 /usr/src/app/conf/local.yml<br></code></pre></td></tr></table></figure></li></ol><h1 id="Agentes"><a href="#Agentes" class="headerlink" title="Agentes"></a>Agentes</h1><p>Un agente es un <strong>Troyano de Acceso Remoto (RAT)</strong> que deberemos instalar de forma temporal en los equipos que queramos simular técnicas tanto de ataque como de defensa. Este troyano no lo identifiqueis como algo malicioso para el equipo, es la forma que tiene el software de poder comunicarse con el equipo y poder simular los ataques.<br><img src="/img/Tools/Caldera/agents.png" alt="Figura 1: Menu de agentes"></p><p>En el botón de configuración se podrá definir el tiempo de vida de los agentes en los equipos y el nombre por defecto que van a utilizar. Además permite que estos agentes de base implementen una serie de habilidades, que por defecto no le vamos a añadir ninguna.<br><img src="/img/Tools/Caldera/agents_conf.png" alt="Figura 2: Configuración de agentes"></p><p>En el primer desplegable aparecerán varios tipos de agente en función del tipo de conexión que queramos establecer. Pensando con mentalidad de pentenster, una vez lograsemos explotar un sistema, deberiamos buscar formas de ganar persistencia, como por ejemplo: crear diferentes backdoors o puertas traseras para que en caso de ser detectados y erradicados del sistema, aún tengamos otros mecanismos para seguir permaneciendo y conectándonos a él. El troyano <strong>54ndc47</strong> o <strong>sandcat</strong> es el más utilizado para aprender a utilizar la herramienta.<br><img src="/img/Tools/Caldera/agents_deploy.png" alt="Figura 3: Creación de agentes"></p><p>Finalmente, deberiamos copiar el codigo que aparece en la imagen o a continuación, para que el equipo indicado aparezca en el menú de agentes:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">server=<span class="hljs-string">&quot;http://0.0.0.0:8888&quot;</span>;curl -s -X POST -H <span class="hljs-string">&quot;file:sandcat.go&quot;</span> -H <span class="hljs-string">&quot;platform:darwin&quot;</span> <span class="hljs-variable">$server</span>/file/download &gt; Atrox;chmod +x Atrox;./Atrox -server <span class="hljs-variable">$server</span> -v<br></code></pre></td></tr></table></figure><p><img src="/img/Tools/Caldera/agents_inst.png" alt="Figura 4: Agente instalado"></p><h1 id="Habilidades"><a href="#Habilidades" class="headerlink" title="Habilidades"></a>Habilidades</h1><p>Las habilidades son las diferentes técnicas que han sido reconocidas en el framework de MITRE&amp;TTACk por haberse utilizado durante diferentes tipos de ataques.<br>Los diferentes plugins añaden nuevas técnicas al framework de Caldera. Los módulos que incluyen el mayor número de técnicas son Atomic Red Team y Stockpile.<br><img src="/img/Tools/Caldera/abilities.png" alt="Figura 5: Menu de habilidades"></p><p>El buscador de Caldera nos permite buscar a grandes rasgos habilidades por su nombre o su ID respectivo de MITRE. Esta imagen es un ejemplo de en qué consiste latécnica “T1082 - Hostname Discovery”.<br><img src="/img/Tools/Caldera/abilities_tec.png" alt="Figura 6: Habilidad T1082"></p><p>Otra forma más efectiva de buscar las técnicas que ejecutan un comando en especifico, es haciendo uso de la terminal y un poco de bash scripting.<br>Por ejemplo, si quisiesemos hacer una búsqueda de las técnicas que utilizan el uso del comando “whoami”, deberíamos escribir en la terminal:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">grep -rl <span class="hljs-string">&quot;whoami&quot;</span> /usr/src/app/plugins/stockpile/data/abilities/ | xargs head -n5<br></code></pre></td></tr></table></figure><p>Como resultado, obtendríamos las 3 técnicas que contienen el comando:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs bash">==&gt; /usr/src/app/plugins/stockpile/data/abilities/discovery/c0da588f-79f0-4263-8998-7496b1a40596.yml &lt;==<br>---<br><br>- id: c0da588f-79f0-4263-8998-7496b1a40596<br>  name: Identify active user<br>  description: Find user running agent<br><br>==&gt; /usr/src/app/plugins/stockpile/data/abilities/discovery/bd527b63-9f9e-46e0-9816-b8434d2b8989.yml &lt;==<br>---<br><br>- id: bd527b63-9f9e-46e0-9816-b8434d2b8989<br>  name: Current User<br>  description: Obtain user from current session<br><br>==&gt; /usr/src/app/plugins/stockpile/data/abilities/collection/55678719-e76e-4df9-92aa-10655bbd1cf4.yml &lt;==<br>--- <br>- id: 55678719-e76e-4df9-92aa-10655bbd1cf4<br>  description: User enumeration<br>  name: cmd.exe information gathering<br>  tactic: collection<br></code></pre></td></tr></table></figure><h1 id="Adversarios"><a href="#Adversarios" class="headerlink" title="Adversarios"></a>Adversarios</h1><p>Los adversarios son perfiles de atacantes creados por los desarrolladores que engloban una serie de técnicas acorde a atacantes específicos. Esta herramienta nos permite crear nuestros propios adversarios y testear:</p><ul><li>Técnicas de red team sin tener conocimiento de los comandos que ejecuta realmente un atacante. Esto permite a un usuario de Blue Team comprobar de manera fácil y rápida que tan vulnerable es un sistema ante esos ataques. </li><li>Técnicas de blue team, cuando instalamos el agente de Blue el objetivo es -&gt; como atacante, ver que información puedo obtener de un sistema o aprender nuevos mecanismos para bypasear X protecciones<br>donde se busca bypasear un sistema protegido por los mecanismos establecidos del agente.</li></ul><p>Un ejemplo de adversario es “Noisy Neighbor”, que utiliza técnicas de reconocimiento las cuales mcuhas de ellas son facilmente detectables.<br><img src="/img/Tools/Caldera/adversaries.png" alt="Figura 7: Adversario Noisy Neighbor"></p><h1 id="Operaciones"><a href="#Operaciones" class="headerlink" title="Operaciones"></a>Operaciones</h1><p>Las operaciones son ataques emulados dirigidos a un grupo o varios grupos de equipos donde tengamos instalado los agentes.<br><img src="/img/Tools/Caldera/operations.png" alt="Figura 8: Menú Operaciones"></p><p>Deberemos definir un nombre a dicha operación, seleccionar uno de los atacantes creados por defecto o uno creado por nosotros mismos, los grupos a los que afecta dicha operación (el grupo se define en el apartado de Agentes) y muy importante marcar la opción de Auto-close como en la siguiente imagen.<br><img src="/img/Tools/Caldera/operations_creation.png" alt="Figura 9: Creación de Operaciones"></p><p>Cuando empezemos la operación aparecerá un menú como el de la siguiente imagen. Muestra paso a paso la técnica que se va utilizando, el dispositivo donde se realiza, el comando ejecutado y el restultado de dicho comando.<br><img src="/img/Tools/Caldera/operations_example.png" alt="Figura 10: Operación M4K4RR0N"></p><h1 id="Acceso"><a href="#Acceso" class="headerlink" title="Acceso"></a>Acceso</h1><p>El apartado Access utiliza la conexión establecida con el dispositivo que seleccionemos y ofrece la posibilidad de ejecutar técnicas dirigidas de forma manual e individual aprovechando el canal de C2 del agente instalado.<br><img src="/img/Tools/Caldera/access.png" alt="Figura 11: Menú Acceso"></p><h1 id="Entrenamiento"><a href="#Entrenamiento" class="headerlink" title="Entrenamiento"></a>Entrenamiento</h1><p>Finalmente está el apartado de entrenamiento, donde tendremos diferentes certificados enfocados tanto para uso de la aplicación a nivel de <strong>usuario</strong> como una certificación específica para <strong>Blue</strong>.<br><img src="/img/Tools/Caldera/trainning.png" alt="Figura 12: Menú Entrenamiento"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Herramientas</category>
+      
+      <category>Emulación de adversarios</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Herramientas</tag>
+      
+      <tag>IR</tag>
+      
+      <tag>Red Team</tag>
+      
+      <tag>Blue Team</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Cyber Kill Chain</title>
     <link href="/2021/11/07/Cyber-Kill-Chain/"/>
     <url>/2021/11/07/Cyber-Kill-Chain/</url>
@@ -15,14 +48,16 @@
       
       <category>Apuntes</category>
       
+      <category>Introducción al Ethical Hacking</category>
+      
     </categories>
     
     
     <tags>
       
-      <tag>Theory</tag>
+      <tag>Teoría</tag>
       
-      <tag>Begginer</tag>
+      <tag>Fundamental</tag>
       
     </tags>
     
@@ -42,14 +77,16 @@
       
       <category>Apuntes</category>
       
+      <category>Introducción al Ethical Hacking</category>
+      
     </categories>
     
     
     <tags>
       
-      <tag>Theory</tag>
+      <tag>Teoría</tag>
       
-      <tag>Begginer</tag>
+      <tag>Fundamental</tag>
       
     </tags>
     
@@ -62,7 +99,7 @@
     <link href="/2021/11/04/vulnversity/"/>
     <url>/2021/11/04/vulnversity/</url>
     
-    <content type="html"><![CDATA[<h1 id="THM-Vunlversity-Walktrhough"><a href="#THM-Vunlversity-Walktrhough" class="headerlink" title="THM - Vunlversity Walktrhough"></a>THM - Vunlversity Walktrhough</h1><h2 id="1-Enumeration"><a href="#1-Enumeration" class="headerlink" title="1 - Enumeration"></a>1 - Enumeration</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h2 id="2-Weaponization"><a href="#2-Weaponization" class="headerlink" title="2 - Weaponization"></a>2 - Weaponization</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h2 id="3-Delivery"><a href="#3-Delivery" class="headerlink" title="3 - Delivery"></a>3 - Delivery</h2><h2 id="4-Exploitation"><a href="#4-Exploitation" class="headerlink" title="4 - Exploitation"></a>4 - Exploitation</h2><h2 id="5-Obtain-Flag"><a href="#5-Obtain-Flag" class="headerlink" title="5 - Obtain Flag"></a>5 - Obtain Flag</h2><h3 id="5-1-User-Flag"><a href="#5-1-User-Flag" class="headerlink" title="5.1 - User Flag"></a>5.1 - User Flag</h3><h3 id="5-2-Root-Flag"><a href="#5-2-Root-Flag" class="headerlink" title="5.2 - Root Flag"></a>5.2 - Root Flag</h3><h2 id="6-Conclusions"><a href="#6-Conclusions" class="headerlink" title="6 - Conclusions"></a>6 - Conclusions</h2>]]></content>
+    <content type="html"><![CDATA[<h1 id="THM-Vunlversity-Walktrhough"><a href="#THM-Vunlversity-Walktrhough" class="headerlink" title="THM - Vunlversity Walktrhough"></a>THM - Vunlversity Walktrhough</h1><h2 id="Reconocimiento"><a href="#Reconocimiento" class="headerlink" title="Reconocimiento"></a>Reconocimiento</h2><h3 id="Enumeracion-de-puertos"><a href="#Enumeracion-de-puertos" class="headerlink" title="Enumeración de puertos"></a>Enumeración de puertos</h3><p>La primera tarea de todas para realizar un ataque es detectar los puertos y servicios expuestos. Esta tarea se suele realizar con el comando:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sC -sV -n -p- &lt;IP&gt;<br></code></pre></td></tr></table></figure><p>La ejecución del comando nos deberá proporcionar el siguiente output:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br></code></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h2 id="2-Weaponization"><a href="#2-Weaponization" class="headerlink" title="2 - Weaponization"></a>2 - Weaponization</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h2 id="3-Delivery"><a href="#3-Delivery" class="headerlink" title="3 - Delivery"></a>3 - Delivery</h2><h2 id="4-Exploitation"><a href="#4-Exploitation" class="headerlink" title="4 - Exploitation"></a>4 - Exploitation</h2><h2 id="5-Obtain-Flag"><a href="#5-Obtain-Flag" class="headerlink" title="5 - Obtain Flag"></a>5 - Obtain Flag</h2><h3 id="5-1-User-Flag"><a href="#5-1-User-Flag" class="headerlink" title="5.1 - User Flag"></a>5.1 - User Flag</h3><h3 id="5-2-Root-Flag"><a href="#5-2-Root-Flag" class="headerlink" title="5.2 - Root Flag"></a>5.2 - Root Flag</h3><h2 id="6-Conclusions"><a href="#6-Conclusions" class="headerlink" title="6 - Conclusions"></a>6 - Conclusions</h2>]]></content>
     
     
     <categories>
@@ -76,22 +113,9 @@
     
     <tags>
       
-      <tag>Lab</tag>
+      <tag>Laboratorio</tag>
       
     </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2021/11/04/hello-world/"/>
-    <url>/2021/11/04/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
     
   </entry>
   
