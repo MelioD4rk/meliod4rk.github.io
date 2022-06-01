@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/HTB/Pandora/tar.png">
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/HTB/Pandora/root.png">
 <meta property="article:published_time" content="2022-03-31T17:10:49.000Z">
-<meta property="article:modified_time" content="2022-05-19T18:57:38.425Z">
+<meta property="article:modified_time" content="2022-06-01T19:42:57.909Z">
 <meta property="article:author" content="Melioda5">
 <meta property="article:tag" content="Laboratorio">
 <meta name="twitter:card" content="summary_large_image">
@@ -378,7 +378,7 @@
 <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc">f881ee92d<span class="hljs-strong">*****</span><span class="hljs-strong">*****</span><span class="hljs-strong">*****</span><span class="hljs-strong">*****</span><span class="hljs-strong">***</span> USER FLAG<br></code></pre></td></tr></table></figure>
 
 <p>(PD: Si no se entiende la explicación, os dejo un enlace a un video que explica perfectamente como explotar la vulnerabilidad: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3msKWLid5dY">https://www.youtube.com/watch?v=3msKWLid5dY</a>)</p>
-<h2 id="Task-4-Escalada-de-privilegios"><a href="#Task-4-Escalada-de-privilegios" class="headerlink" title="Task 4 - Escalada de privilegios"></a>Task 4 - Escalada de privilegios</h2><p>Primero de todo, la terminal que hemos obtenido es muy limitada. Por esa razón, aprovechando que tenemos el puerto 22 de SSH abierto, vamos a conectarnos al usuario Matt mediante ssh y garantizar que no se nos corta la conexión de manera random.</p>
+<h2 id="Task-4-Escalada-de-privilegios"><a href="#Task-4-Escalada-de-privilegios" class="headerlink" title="Task 4 - Escalada de privilegios"></a>Task 4 - Escalada de privilegios</h2><p>Primero de todo, la terminal que hemos obtenido es muy limitada. Por esa razón, aprovechando que tenemos el puerto 22 de SSH abierto, podemos conectarnos al usuario Matt mediante ssh y garantizar que no se nos corta la conexión de manera random, o hacer un tratamiento de la TTY para coseguir una shell más consistente. En este caso, he preferido optar por el tratamiento de la TTY como muestro a continuación.</p>
 <h3 id="1-Tratamiento-de-la-TTY"><a href="#1-Tratamiento-de-la-TTY" class="headerlink" title="1. Tratamiento de la TTY"></a>1. Tratamiento de la TTY</h3><p>Como podemos comprobar, la consola que hemos obtenido esta muy limitada. Por esa razón, haremos un tratamiento de la TTY.</p>
 <p>Primero de todo deberemos salir de esta shell restringida. Para ello, si ejecutamos el comando, podemos ver que binarios tienen permisos de SUID.</p>
 <p>Input:</p>
