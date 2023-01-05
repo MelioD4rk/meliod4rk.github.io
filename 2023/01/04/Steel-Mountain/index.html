@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/SteelMountain.jpeg">
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/layout_p80.png">
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/task_1.png">
-<meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/layout_p8080.png">
+<meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/httpfileserver.png">
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/searchsploit.png">
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/rejetto.png">
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/task_2.png">
@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/task_3.png">
 <meta property="og:image" content="http://melioda5.github.io/img/Walkthrough/THM/SteelMountain/task_4.png">
 <meta property="article:published_time" content="2023-01-04T21:10:59.000Z">
-<meta property="article:modified_time" content="2023-01-05T17:45:07.840Z">
+<meta property="article:modified_time" content="2023-01-05T18:08:41.692Z">
 <meta property="article:author" content="Melioda5">
 <meta property="article:tag" content="Laboratorio">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
 <p>Si inspeccionamos la web, podemos ver que la imagen que muestra pertenece a la ruta <strong>/img/BillHarper.png</strong>. De aquí podemos deducir que el nombre del empleado del mes es *<strong>Bill Harper</strong>. Salvo esa información, la web no tiene nada más interesante.</p>
 <p>Otro método para obtener el nombre sería hacer una busqueda inversa de dicha imagen con plataformas como <a target="_blank" rel="noopener" href="https://tineye.com/">https://tineye.com/</a></p>
 <h3 id="4-Solucion"><a href="#4-Solucion" class="headerlink" title="4. Solución"></a>4. Solución</h3><p><img src="/img/Walkthrough/THM/SteelMountain/task_1.png" srcset="/img/Website/loading.gif" lazyload alt="Figura 2: Solución Task 1"></p>
-<h2 id="Task-2-Acceso-inicial"><a href="#Task-2-Acceso-inicial" class="headerlink" title="Task 2 - Acceso inicial"></a>Task 2 - Acceso inicial</h2><h3 id="1-Puerto-8080"><a href="#1-Puerto-8080" class="headerlink" title="1. Puerto 8080"></a>1. Puerto 8080</h3><p><img src="/img/Walkthrough/THM/SteelMountain/layout_p8080.png" srcset="/img/Website/loading.gif" lazyload alt="Figura 3: Web puerto 8080"><br>La web muestra que utiliza la version de http <strong>HttpFileServer 2.3</strong></p>
+<h2 id="Task-2-Acceso-inicial"><a href="#Task-2-Acceso-inicial" class="headerlink" title="Task 2 - Acceso inicial"></a>Task 2 - Acceso inicial</h2><h3 id="1-Puerto-8080"><a href="#1-Puerto-8080" class="headerlink" title="1. Puerto 8080"></a>1. Puerto 8080</h3><p><img src="/img/Walkthrough/THM/SteelMountain/httpfileserver.png" srcset="/img/Website/loading.gif" lazyload alt="Figura 3: Web puerto 8080"><br>La web muestra que utiliza la version de http <strong>HttpFileServer 2.3</strong></p>
 <p>Si buscamos dicha version con la herramienta searchsploit, veremos que nos aparecen diferentes exploits disponibles.</p>
 <p>Input:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">searchsploit http file server 2.3<br></code></pre></td></tr></table></figure>
