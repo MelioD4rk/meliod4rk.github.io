@@ -25,7 +25,7 @@
 <meta property="og:locale" content="es_ES">
 <meta property="og:image" content="http://meliod4rk.github.io/img/Walkthrough/THM/Light/smokey_connection.png">
 <meta property="article:published_time" content="2025-03-03T11:02:52.000Z">
-<meta property="article:modified_time" content="2025-03-03T11:48:00.040Z">
+<meta property="article:modified_time" content="2025-03-03T12:13:57.788Z">
 <meta property="article:author" content="MelioD4rk">
 <meta property="article:tag" content="Lab">
 <meta name="twitter:card" content="summary_large_image">
@@ -198,7 +198,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k wc
+      935 wc
     </span>
   
 
@@ -234,14 +234,14 @@
             <div class="markdown-body">
               <h1 id="THM-Light-Walktrhough"><a href="#THM-Light-Walktrhough" class="headerlink" title="THM - Light (Walktrhough)"></a>THM - Light (Walktrhough)</h1><h2 id="Known-information"><a href="#Known-information" class="headerlink" title="Known information"></a>Known information</h2><p>DBMS called Light<br>Running port: <code>1337</code><br>Connection method: <code>nc MACHINE_IP 1337</code><br>Username: <code>smokey</code></p>
 <h2 id="Task-1-Welcome"><a href="#Task-1-Welcome" class="headerlink" title="Task 1 - Welcome"></a>Task 1 - Welcome</h2><h3 id="1-Scan-whole-open-ports"><a href="#1-Scan-whole-open-ports" class="headerlink" title="1. Scan whole open ports"></a>1. Scan whole open ports</h3><p>First of all, I’ll try if some other ports are open too:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>nmap -p- -sS --min-rate 5000 --open -vvv -Pn -n <span class="hljs-variable">$target_ip</span><br><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -p- -sS --min-rate 5000 --open -vvv -Pn -n <span class="hljs-variable">$target_ip</span><br></code></pre></td></tr></table></figure>
 
 <p>Output:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>Nmap scan report <span class="hljs-keyword">for</span> &lt;IP&gt;<br><br>Host is up (0.051s latency).<br><br>  <br><br>PORT     STATE SERVICE REASON<br>22/tcp   open  ssh     syn-ack ttl 63<br>1337/tcp open  waste   syn-ack ttl 63<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">PORT     STATE SERVICE REASON<br>22/tcp   open  ssh     syn-ack ttl 63<br>1337/tcp open  waste   syn-ack ttl 63<br></code></pre></td></tr></table></figure>
 
 
 <h3 id="2-Deep-scan-of-open-ports"><a href="#2-Deep-scan-of-open-ports" class="headerlink" title="2. Deep scan of open ports"></a>2. Deep scan of open ports</h3><p>After get information about open ports, now we try to extract more interesting information about them, like OS or Services versions or default nmap enumeration scripts:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br>nmap -sC -sV -p22,1337 <span class="hljs-variable">$target_ip</span><br><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nmap -sC -sV -p22,1337 <span class="hljs-variable">$target_ip</span><br></code></pre></td></tr></table></figure>
 
 <p>In this case, we didn’t find nothing interesting.</p>
 <h3 id="3-DBMS-connection"><a href="#3-DBMS-connection" class="headerlink" title="3. DBMS connection"></a>3. DBMS connection</h3><p>As mentioned on the description, i tried to connect to the dbms using <code>nc $target_ip 1337</code>.<br>If we use the known user <code>smokey</code>as input to dbms response, we see that dbms returns a password of we don’t known of what. But, it’s important to take note for later.</p>
